@@ -2,5 +2,7 @@
 *.env
 target/
 .idea/
+*.classproblems screenshot
+*.iml
 *.class
 problems screenshot/
