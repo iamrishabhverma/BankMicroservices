@@ -128,3 +128,23 @@ Modify `application.yml` for:
 - active
 - createdAt
 - updatedAt
+
+
+## Problems Faced & Troubleshooting
+
+### 1. Database Connection Failure (`FATAL: password authentication failed for user "${DB_USERNAME}"`)
+
+**Issue:**  
+During startup, Spring Boot threw a `BeanCreationException` and failed to build the `EntityManagerFactory`. The underlying cause was a PostgreSQL authentication error:
+```text
+Caused by: org.postgresql.util.PSQLException: FATAL: password authentication failed for user "${DB_USERNAME}"
+
+**FIX**
+Ensure the database username and password in `application.yml` match those configured in your PostgreSQL instance.
+Pass environment variables correctly if using Docker. For example, in `docker-compose.yml`, set:
+```yaml 
+Pass environment locally:
+  - DB_USERNAME
+  - DB_PASSWORD
+  - JWT_SECRET
+```
