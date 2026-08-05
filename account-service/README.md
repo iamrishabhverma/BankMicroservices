@@ -54,6 +54,11 @@ docker-compose up --build
 
 # Stop services
 docker-compose down
+
+#stop and run account-service   
+docker compose down
+docker compose build --no-cache account-service
+docker compose up
 ```
 
 ## API Endpoints
