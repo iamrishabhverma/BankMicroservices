@@ -22,10 +22,7 @@
 
     <modules>
         <module>account-service</module>
-        <!-- Add other services as you build them:
-        <module>transaction-service</module>
-        <module>transfer-service</module>
-        -->
+        <module>auth-service</module>
     </modules>
 
     <properties>
