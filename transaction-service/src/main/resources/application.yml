@@ -1,9 +1,9 @@
 server:
-  port: ${ACCOUNT_SERVICE_PORT:8081}
+  port: 8083
 
 spring:
   application:
-    name: account-service
+    name: transaction-service
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -15,7 +15,6 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   management:
@@ -27,6 +26,13 @@ spring:
       health:
         show-details: always
 
-jwt:
-  secret: ${JWT_SECRET}
-  expirationMs: ${JWT_EXPIRATION_MS:86400000}
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+app:
+  kafka:
+    topic:
+      transaction-events: transaction-events
