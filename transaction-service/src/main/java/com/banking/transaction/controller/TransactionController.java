@@ -1,4 +1,4 @@
-package com.bank.transaction.controller;
+package com.banking.transaction.controller;
 
 import com.banking.transaction.dto.TransactionRequest;
 import com.banking.transaction.dto.TransactionResponse;
