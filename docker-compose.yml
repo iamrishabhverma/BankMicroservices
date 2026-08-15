@@ -111,6 +111,23 @@ services:
     networks:
       - banking-network
 
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: ./notification-service/Dockerfile
+    container_name: notification-service
+    ports:
+      - "${NOTIFICATION_SERVICE_PORT}:8085"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    depends_on:
+      kafka:
+        condition: service_started
+    networks:
+        - banking-network
+
+
 networks:
   banking-network:
     driver: bridge
