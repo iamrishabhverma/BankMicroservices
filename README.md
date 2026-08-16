@@ -154,3 +154,41 @@ Pass environment locally:
   - DB_PASSWORD
   - JWT_SECRET
 ```
+
+### 2. JJWT `parserBuilder()` Compilation Error
+
+**Problem:**
+The API Gateway failed to compile with the following error:
+
+```text
+cannot find symbol
+symbol:   method parserBuilder()
+location: class io.jsonwebtoken.Jwts
+```
+
+The issue occurred because the project was using JJWT `0.12.x`, where the older `parserBuilder()` API is no longer available.
+
+**Cause:**
+The JWT utility class was using the JJWT `0.11.x` API:
+
+```java
+Jwts.parserBuilder()
+    .setSigningKey(getSignKey())
+    .build()
+    .parseClaimsJws(token);
+```
+
+**Fix:**
+Updated the JWT parsing code to use the JJWT `0.12.x` API:
+
+```java
+Jwts.parser()
+    .verifyWith(getSignKey())
+    .build()
+    .parseSignedClaims(token);
+```
+
+Also updated the signing key method to return a `SecretKey` and used `StandardCharsets.UTF_8` when converting the secret to bytes.
+
+**Result:**
+The API Gateway successfully compiled with JJWT `0.12.6`, eliminating the `parserBuilder()` compilation error.
