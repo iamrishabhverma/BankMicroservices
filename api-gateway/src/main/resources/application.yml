@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Public Auth Routes
+        - id: auth-service
+          uri: http://auth-service:8082
+          predicates:
+            - Path=/api/auth/**
+
+        # Protected Account Routes
+        - id: account-service
+          uri: http://account-service:8081
+          predicates:
+            - Path=/api/accounts/**
+          filters:
+            - AuthenticationFilter
+
+        # Protected Transaction Routes
+        - id: transaction-service
+          uri: http://transaction-service:8083
+          predicates:
+            - Path=/api/transactions/**
+          filters:
+            - AuthenticationFilter
+
+        # Protected Transfer Routes
+        - id: transfer-service
+          uri: http://transfer-service:8084
+          predicates:
+            - Path=/api/transfers/**
+          filters:
+            - AuthenticationFilter
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
