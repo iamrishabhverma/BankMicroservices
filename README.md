@@ -54,6 +54,12 @@ docker-compose up --build
 
 # Stop services
 docker-compose down
+
+#Rebuild and run API Gateway/ any other service
+docker compose down
+docker compose build --no-cache api-gateway
+docker compose up api-gateway
+
 ```
 
 ## API Endpoints
