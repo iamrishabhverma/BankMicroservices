@@ -29,11 +29,11 @@ spring:
           filters:
             - AuthenticationFilter
 
-        # Protected Transfer Routes
-        - id: transfer-service
-          uri: http://transfer-service:8084
+        # Protected payment Routes
+        - id: payment-service
+          uri: http://payment-service:8084
           predicates:
-            - Path=/api/transfers/**
+            - Path=/api/payments/**
           filters:
             - AuthenticationFilter
 
