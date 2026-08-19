@@ -29,11 +29,19 @@ spring:
           filters:
             - AuthenticationFilter
 
+        # Notification  Service Routes
+        - id: notification-service
+          uri: http://notification-service:8085
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - AuthenticationFilter
+
         # Protected payment Routes
         - id: payment-service
           uri: http://payment-service:8084
           predicates:
-            - Path=/api/payments/**
+            - Path=/api/transfers/**
           filters:
             - AuthenticationFilter
 

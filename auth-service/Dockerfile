@@ -1,18 +1,22 @@
 # Stage 1: Build stage
+
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
 
-# Copy parent POM and all service POMs to leverage Docker layer caching
+# Copy parent POM and service POMs
 COPY pom.xml .
 COPY auth-service/pom.xml auth-service/
 COPY account-service/pom.xml account-service/
 COPY transaction-service/pom.xml transaction-service/
 COPY notification-service/pom.xml notification-service/
+COPY api-gateway/pom.xml api-gateway/
+COPY payment-service/pom.xml payment-service/
 
 # Copy source code for auth-service
 COPY auth-service/src auth-service/src
 
 # Package the auth-service jar
+RUN mvn -N install -DskipTests
 RUN mvn clean package -pl auth-service -am -DskipTests
 
 # Stage 2: Runtime stage
@@ -23,5 +27,8 @@ WORKDIR /app
 COPY --from=builder /app/auth-service/target/*.jar app.jar
 
 EXPOSE 8082
+
+HEALTHCHECK --interval=10s --timeout=3s --start-period=30s --retries=5 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8082/actuator/health || exit 1
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
