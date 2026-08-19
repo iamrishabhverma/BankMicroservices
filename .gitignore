@@ -6,3 +6,5 @@ target/
 *.iml
 *.class
 problems screenshot/
+bank-ui/node_modules/
+*.zip
